@@ -1,0 +1,242 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "version": "1.0.0",
+        "title": "Application API",
+        "description": "Application API",
+        "license": {
+            "name": "MIT",
+            "url": "https://opensource.org/licenses/MIT"
+        }
+    },
+    "host": "localhost:8080",
+    "basePath": "",
+    "tags": [
+        {
+            "name": "User",
+            "description": "API for users in the system"
+        }
+    ],
+    "schemes": [
+        "http"
+    ],
+    "consumes": [
+        "application/json"
+    ],
+    "produces": [
+        "application/json"
+    ],
+    "paths": {
+        "/user/login": {
+            "post": {
+                "tags": [
+                    "User"
+                ],
+                "description": "Login user in system",
+                "parameters": [
+                    {
+                        "name": "user",
+                        "in": "body",
+                        "description": "login request",
+                        "schema": {
+                            "properties": {
+                                "email": {
+                                    "type": "string"
+                                },
+                                "password": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "create sucess",
+                        "schema": {
+                           "$ref":"#/definitions/SuccessResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server",
+                        "schema": {
+                            "$ref":"#/definitions/ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/file/upload": {
+            "post": {
+                "tags": [
+                    "File"
+                ],
+                "description": "Upload file to server",
+                "parameters": [
+                    {
+                        "name": "authorization",
+                        "required": true,
+                        "in": "header",
+                        "description": "token of user",
+                        "type": "string"
+                    },
+                    {
+                        "description": "file to upload",
+                        "name": "fileUpload",
+                        "in": "formData",
+                        "required": true,
+                        "type": "files"
+                    }
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "create sucess",
+                        "schema": {
+                           "$ref":"#/definitions/SuccessResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server",
+                        "schema": {
+                            "$ref":"#/definitions/ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/file/download": {
+            "get": {
+                "tags": [
+                    "File"
+                ],
+                "description": "Download file from server",
+                "parameters": [
+                    {
+                        "name": "filePath",
+                        "in": "query",
+                        "required": true,
+                        "description": "path for download file",
+                        "type": "string"
+                    }
+                ],
+                "produces": [
+                    "application/*"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "update sucess",
+                        "schema": {
+                            "type": "file"
+                        }
+                    }
+                }
+            }
+        },
+        "camera/create": {
+            "post": {
+                "tags": [
+                    "camera"
+                ],
+                "parameters": [
+                    {
+                        "name": "authorization",
+                        "required": true,
+                        "in": "header",
+                        "description": "json web token",
+                        "type": "string"
+                    },
+                    {
+                        "name": "create camera",
+                        "in": "body",
+                        "description": "create post",
+                        "required": true,
+                        "schema": {
+                            "properties": {
+                                "uri": {
+                                    "type": "string"
+                                },
+                                "location": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "create sucess",
+                        "schema": {
+                           "$ref":"#/definitions/SuccessResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server",
+                        "schema": {
+                            "$ref":"#/definitions/ErrorResponse"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "SuccessResponse": {
+            "properties": {
+                "result": {
+                    "type": "number"
+                },
+                "message": {
+                    "type": "string"
+                },
+                "value": {
+                    "type": "object"
+                }
+            }
+        },
+        "ErrorResponse": {
+            "properties": {
+                "result": {
+                    "type": "number"
+                },
+                "message": {
+                    "type": "string"
+                },
+                "error": {
+                    "type": "object"
+                }
+            }
+        },
+        "CameraRequest": {
+            "required": [
+                "uri",
+                "location"
+            ],
+            "properties": {
+                "id": {
+                    "type": "number"
+                },
+                "uri": {
+                    "type": "string"
+                },
+                "location": {
+                    "type": "string"
+                },
+                "create_at": {
+                    "type": "string"
+                },
+                "update_at": {
+                    "type": "string"
+                }
+            }
+        }
+    }
+}

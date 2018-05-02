@@ -17,7 +17,7 @@ module.exports = io => {
   arrCams = objCam.camera;
 
   // send camera information
-  io.on("connection", function (socket) {
+  io.on("connection", function(socket) {
     socket.emit("start", arrCams);
   });
 
@@ -31,10 +31,10 @@ module.exports = io => {
       quality: cam.quality,
       fileOutput: cam.fileOutput
     });
-    stream.on("start", function () {
+    stream.on("start", function() {
       console.log("stream " + cam.name + " started");
     });
-    stream.on("stop", function () {
+    stream.on("stop", function() {
       console.log("stream " + cam.name + " stopped");
     });
     arrStream.push(stream);

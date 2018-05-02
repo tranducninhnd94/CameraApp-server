@@ -1,0 +1,54 @@
+module.exports = (sequelize, DataTypes) => {
+  const Product = sequelize.define(
+    "Product",
+    {
+      id: {
+        type: DataTypes.INTEGER,
+        primaryKey: true,
+        autoIncrement: true
+      },
+      name: {
+        type: DataTypes.STRING
+      },
+      original_price: {
+        type: DataTypes.FLOAT,
+        require: true
+      },
+      sale_price: {
+        type: DataTypes.FLOAT,
+        require: true
+      },
+      description: {
+        type: DataTypes.STRING
+      },
+      status: {
+        type: DataTypes.ENUM,
+        values: ["SHOW", "HIDDEN"]
+      }
+    },
+    {
+      timestamps: true,
+      underscored: true,
+      freezeTableName: true,
+      tableName: "product"
+    }
+  );
+
+  Product.associate = models => {
+    models.Product.hasMany(models.ImageUpload, {
+      as: "images"
+    });
+
+    models.Product.belongsTo(models.Type, {
+      as: "type",
+      foreignKey: "type_id"
+    });
+
+    models.Product.belongsToMany(models.Camera, {
+      as: "cameras",
+      through: models.ProductCamera,
+      foreignKey: "product_id"
+    });
+  };
+  return Product;
+};
