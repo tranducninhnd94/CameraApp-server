@@ -32,6 +32,10 @@ module.exports = {
   createCamera: {
     body: Joi.object().keys(
       {
+        name: Joi.string().required(),
+        namespace: Joi.string().required(),
+        resolution: Joi.string(),
+        fileOutput: Joi.string(),
         uri: Joi.string().required(),
         location: Joi.string().required()
       }
@@ -42,6 +46,10 @@ module.exports = {
     body: Joi.object().keys(
       {
         id: Joi.number().required(),
+        name: Joi.string().required(),
+        namespace: Joi.string().required(),
+        resolution: Joi.string(),
+        fileOutput: Joi.string(),
         uri: Joi.string().required(),
         location: Joi.string().required()
       }

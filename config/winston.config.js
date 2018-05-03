@@ -42,7 +42,7 @@ var logger = new winston.Logger({
     new (winston.transports.DailyRotateFile)(options.file),
     new winston.transports.Console(options.console)
   ],
-  exitOnError: false // do not exit on handled exceptions
+  exitOnError: true // do not exit on handled exceptions
 });
 
 // create a stream object with a 'write' function that will be used by `morgan`

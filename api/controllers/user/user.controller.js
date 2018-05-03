@@ -44,8 +44,6 @@ class UserController {
               let error = new CustomizeError(TAG, 400, "Password is wrong");
               next(error);
             } else {
-              console.log(JSON.stringify(user));
-
               // format roles for each store
               const payload = {
                 email: user.email,

@@ -8,11 +8,11 @@ class ProductService {
     return models.Camera.create(obj);
   }
 
-  update(cameraReq) {
+  update(obj, cameraId) {
     return models.Camera.update(obj, { where: { id: cameraId } });
   }
 
-  delete() {
+  delete(cameraId) {
     return models.Camera.destroy({ where: { id: cameraId } });
   }
 

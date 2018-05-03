@@ -57,13 +57,77 @@
                     "200": {
                         "description": "create sucess",
                         "schema": {
-                           "$ref":"#/definitions/SuccessResponse"
+                            "$ref": "#/definitions/SuccessResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalidate Data",
+                        "schema": {
+                            "$ref": "#/definitions/SuccessResponse"
+                        }
+                    },
+                    "403": {
+                        "description": "Frobidden Access",
+                        "schema": {
+                            "$ref": "#/definitions/SuccessResponse"
                         }
                     },
                     "500": {
                         "description": "Internal Server",
                         "schema": {
-                            "$ref":"#/definitions/ErrorResponse"
+                            "$ref": "#/definitions/ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/user/password/change": {
+            "post": {
+                "tags": [
+                    "User"
+                ],
+                "description": "Change password",
+                "parameters": [
+                    {
+                        "name": "authorization",
+                        "required": true,
+                        "in": "header",
+                        "description": "token of user",
+                        "type": "string"
+                    },
+                    {
+                        "name": "user",
+                        "in": "body",
+                        "description": "new password",
+                        "schema": {
+                            "properties": {
+                                "newPassword": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Sucess",
+                        "schema": {
+                            "$ref": "#/definitions/SuccessResponse"
+                        }
+                    },
+                    "403": {
+                        "description": "Frobidden Access",
+                        "schema": {
+                            "$ref": "#/definitions/SuccessResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server",
+                        "schema": {
+                            "$ref": "#/definitions/ErrorResponse"
                         }
                     }
                 }
@@ -98,13 +162,13 @@
                     "200": {
                         "description": "create sucess",
                         "schema": {
-                           "$ref":"#/definitions/SuccessResponse"
+                            "$ref": "#/definitions/SuccessResponse"
                         }
                     },
                     "500": {
                         "description": "Internal Server",
                         "schema": {
-                            "$ref":"#/definitions/ErrorResponse"
+                            "$ref": "#/definitions/ErrorResponse"
                         }
                     }
                 }
@@ -138,7 +202,7 @@
                 }
             }
         },
-        "camera/create": {
+        "/admin/camera/create": {
             "post": {
                 "tags": [
                     "camera"
@@ -154,10 +218,22 @@
                     {
                         "name": "create camera",
                         "in": "body",
-                        "description": "create post",
+                        "description": "create camera",
                         "required": true,
                         "schema": {
                             "properties": {
+                                "name": {
+                                    "type": "string"
+                                },
+                                "namespace": {
+                                    "type": "string"
+                                },
+                                "resolution": {
+                                    "type": "string"
+                                },
+                                "fileOutput": {
+                                    "type": "string"
+                                },
                                 "uri": {
                                     "type": "string"
                                 },
@@ -173,15 +249,506 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "create sucess",
+                        "description": "Success",
                         "schema": {
-                           "$ref":"#/definitions/SuccessResponse"
+                            "$ref": "#/definitions/SuccessResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalidate Data",
+                        "schema": {
+                            "$ref": "#/definitions/SuccessResponse"
+                        }
+                    },
+                    "403": {
+                        "description": "Frobidden Access",
+                        "schema": {
+                            "$ref": "#/definitions/SuccessResponse"
                         }
                     },
                     "500": {
                         "description": "Internal Server",
                         "schema": {
-                            "$ref":"#/definitions/ErrorResponse"
+                            "$ref": "#/definitions/ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/admin/camera/update": {
+            "put": {
+                "tags": [
+                    "camera"
+                ],
+                "parameters": [
+                    {
+                        "name": "authorization",
+                        "required": true,
+                        "in": "header",
+                        "description": "json web token",
+                        "type": "string"
+                    },
+                    {
+                        "name": "update camera",
+                        "in": "body",
+                        "description": "update camera",
+                        "required": true,
+                        "schema": {
+                            "properties": {
+                                "id": {
+                                    "type": "number"
+                                },
+                                "name": {
+                                    "type": "string"
+                                },
+                                "namespace": {
+                                    "type": "string"
+                                },
+                                "resolution": {
+                                    "type": "string"
+                                },
+                                "fileOutput": {
+                                    "type": "string"
+                                },
+                                "uri": {
+                                    "type": "string"
+                                },
+                                "location": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "schema": {
+                            "$ref": "#/definitions/SuccessResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalidate Data",
+                        "schema": {
+                            "$ref": "#/definitions/SuccessResponse"
+                        }
+                    },
+                    "403": {
+                        "description": "Frobidden Access",
+                        "schema": {
+                            "$ref": "#/definitions/SuccessResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server",
+                        "schema": {
+                            "$ref": "#/definitions/ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/admin/type/create": {
+            "post": {
+                "tags": [
+                    "Type of product"
+                ],
+                "parameters": [
+                    {
+                        "name": "authorization",
+                        "required": true,
+                        "in": "header",
+                        "description": "json web token",
+                        "type": "string"
+                    },
+                    {
+                        "name": "create type of product",
+                        "in": "body",
+                        "description": "create type of product",
+                        "required": true,
+                        "schema": {
+                            "properties": {
+                                "name": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "schema": {
+                            "$ref": "#/definitions/SuccessResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalidate Data",
+                        "schema": {
+                            "$ref": "#/definitions/SuccessResponse"
+                        }
+                    },
+                    "403": {
+                        "description": "Frobidden Access",
+                        "schema": {
+                            "$ref": "#/definitions/SuccessResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server",
+                        "schema": {
+                            "$ref": "#/definitions/ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/admin/type/update": {
+            "put": {
+                "tags": [
+                    "Type of product"
+                ],
+                "parameters": [
+                    {
+                        "name": "authorization",
+                        "required": true,
+                        "in": "header",
+                        "description": "json web token",
+                        "type": "string"
+                    },
+                    {
+                        "name": "update type of product",
+                        "in": "body",
+                        "description": "update type of product",
+                        "required": true,
+                        "schema": {
+                            "properties": {
+                                "id": {
+                                    "type": "number"
+                                },
+                                "name": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "schema": {
+                            "$ref": "#/definitions/SuccessResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalidate Data",
+                        "schema": {
+                            "$ref": "#/definitions/SuccessResponse"
+                        }
+                    },
+                    "403": {
+                        "description": "Frobidden Access",
+                        "schema": {
+                            "$ref": "#/definitions/SuccessResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server",
+                        "schema": {
+                            "$ref": "#/definitions/ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/admin/type/delete/{typeId}": {
+            "delete": {
+                "tags": [
+                    "Type of product"
+                ],
+                "parameters": [
+                    {
+                        "name": "authorization",
+                        "required": true,
+                        "in": "header",
+                        "description": "json web token",
+                        "type": "string"
+                    },
+                    {
+                        "name": "typeId",
+                        "in": "path",
+                        "required": "true",
+                        "description": "id of type",
+                        "type": "number"
+                    }
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "schema": {
+                            "$ref": "#/definitions/SuccessResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalidate Data",
+                        "schema": {
+                            "$ref": "#/definitions/SuccessResponse"
+                        }
+                    },
+                    "403": {
+                        "description": "Frobidden Access",
+                        "schema": {
+                            "$ref": "#/definitions/SuccessResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server",
+                        "schema": {
+                            "$ref": "#/definitions/ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/admin/product/create": {
+            "post": {
+                "tags": [
+                    "Product"
+                ],
+                "parameters": [
+                    {
+                        "name": "authorization",
+                        "required": true,
+                        "in": "header",
+                        "description": "json web token",
+                        "type": "string"
+                    },
+                    {
+                        "name": "create product",
+                        "in": "body",
+                        "description": "create product",
+                        "required": true,
+                        "schema": {
+                            "properties": {
+                                "name": {
+                                    "type": "string"
+                                },
+                                "original_price": {
+                                    "type": "number"
+                                },
+                                "sale_price": {
+                                    "type": "number"
+                                },
+                                "status": {
+                                    "type": "string"
+                                },
+                                "description": {
+                                    "type": "string"
+                                },
+                                "images": {
+                                    "type": "array",
+                                    "items": {
+                                        "properties": {
+                                            "id": {
+                                                "type": "number"
+                                            },
+                                            "path": {
+                                                "type": "string"
+                                            },
+                                            "size": {
+                                                "type": "string"
+                                            },
+                                            "mimetype": {
+                                                "type": "string"
+                                            },
+                                            "originalname": {
+                                                "type": "string"
+                                            },
+                                            "encoding": {
+                                                "type": "string"
+                                            },
+                                            "filename": {
+                                                "type": "string"
+                                            },
+                                            "priority": {
+                                                "type": "string"
+                                            },
+                                            "created_at": {
+                                                "type": "string"
+                                            },
+                                            "updated_at": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "schema": {
+                            "$ref": "#/definitions/SuccessResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalidate Data",
+                        "schema": {
+                            "$ref": "#/definitions/SuccessResponse"
+                        }
+                    },
+                    "403": {
+                        "description": "Frobidden Access",
+                        "schema": {
+                            "$ref": "#/definitions/SuccessResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server",
+                        "schema": {
+                            "$ref": "#/definitions/ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/admin/product/update": {
+            "put": {
+                "tags": [
+                    "Product"
+                ],
+                "parameters": [
+                    {
+                        "name": "authorization",
+                        "required": true,
+                        "in": "header",
+                        "description": "json web token",
+                        "type": "string"
+                    },
+                    {
+                        "name": "update product",
+                        "in": "body",
+                        "description": "update product",
+                        "required": true,
+                        "schema": {
+                            "properties": {
+                                "id": {
+                                    "type": "number"
+                                },
+                                "name": {
+                                    "type": "string"
+                                },
+                                "original_price": {
+                                    "type": "number"
+                                },
+                                "sale_price": {
+                                    "type": "number"
+                                },
+                                "status": {
+                                    "type": "string"
+                                },
+                                "description": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "schema": {
+                            "$ref": "#/definitions/SuccessResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalidate Data",
+                        "schema": {
+                            "$ref": "#/definitions/SuccessResponse"
+                        }
+                    },
+                    "403": {
+                        "description": "Frobidden Access",
+                        "schema": {
+                            "$ref": "#/definitions/SuccessResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server",
+                        "schema": {
+                            "$ref": "#/definitions/ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/admin/product/delete/{productId}": {
+            "delete": {
+                "tags": [
+                    "Product"
+                ],
+                "parameters": [
+                    {
+                        "name": "authorization",
+                        "required": true,
+                        "in": "header",
+                        "description": "json web token",
+                        "type": "string"
+                    },
+                    {
+                        "name": "productId",
+                        "in": "path",
+                        "required": "true",
+                        "description": "id of product",
+                        "type": "number"
+                    }
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "schema": {
+                            "$ref": "#/definitions/SuccessResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalidate Data",
+                        "schema": {
+                            "$ref": "#/definitions/SuccessResponse"
+                        }
+                    },
+                    "403": {
+                        "description": "Frobidden Access",
+                        "schema": {
+                            "$ref": "#/definitions/SuccessResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server",
+                        "schema": {
+                            "$ref": "#/definitions/ErrorResponse"
                         }
                     }
                 }

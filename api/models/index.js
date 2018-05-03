@@ -14,7 +14,6 @@ if (config.use_env_variable) {
 }
 
 fs.readdirSync(__dirname).filter(folder => {
-  console.log("folder : ", path.join(__dirname, folder));
   let dir = path.join(__dirname, folder);
   if (folder != "index.js")
     fs

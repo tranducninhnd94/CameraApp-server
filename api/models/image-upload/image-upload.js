@@ -31,9 +31,9 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         require: true
       },
-      is_used: {
-        type: DataTypes.BOOLEAN,
-        defaultValue: false
+      priority: {
+        type: DataTypes.TINYINT,
+        defaultValue: 0
       }
     },
     {

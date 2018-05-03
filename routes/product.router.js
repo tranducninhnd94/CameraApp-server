@@ -14,8 +14,7 @@ const Auth = require("../api/controllers/auth/auth.controller");
 const auth = new Auth();
 
 router.post(
-  "/product/create",
-  auth.isEmployee,
+  "/admin/product/create",
   validation(entryDataValidate.createProduct),
   productManagerController.createProduct
 );
