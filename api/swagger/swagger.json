@@ -557,6 +557,19 @@
                                 "description": {
                                     "type": "string"
                                 },
+                                "type": {
+                                    "type": "array",
+                                    "items": {
+                                        "properties": {
+                                            "id": {
+                                                "type": "number"
+                                            },
+                                            "name": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    }
+                                },
                                 "images": {
                                     "type": "array",
                                     "items": {

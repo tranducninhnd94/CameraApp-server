@@ -74,6 +74,13 @@ module.exports = {
         .required()
         .default("SHOW"),
 
+      type: Joi.object().keys(
+        {
+          id: Joi.number().required(),
+          name: Joi.string().required(),
+        }
+      ),
+
       images: Joi.array().items(
         Joi.object().keys({
           id: Joi.number().required(),
