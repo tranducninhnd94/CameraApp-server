@@ -8,7 +8,9 @@ module.exports = (sequelize, DataTypes) => {
         autoIncrement: true
       },
       name: {
-        type: DataTypes.STRING
+        type: DataTypes.STRING,
+        require: true,
+        unique: true
       },
       original_price: {
         type: DataTypes.FLOAT,

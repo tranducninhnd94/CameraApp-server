@@ -351,6 +351,118 @@
                 }
             }
         },
+        "/admin/camera/find/all": {
+            "get": {
+                "tags": [
+                    "camera"
+                ],
+                "parameters": [
+                    {
+                        "name": "name",
+                        "in": "query",
+                        "description": "name product",
+                        "type": "string"
+                    },
+                    {
+                        "name": "uri",
+                        "in": "query",
+                        "description": "uri of camera",
+                        "type": "string"
+                    },
+                    {
+                        "name": "location",
+                        "in": "query",
+                        "description": "location of camera",
+                        "type": "string"
+                    },
+                    {
+                        "name": "pageNum",
+                        "in": "query",
+                        "type": "number",
+                        "description": "pageNum"
+                    },
+                    {
+                        "name": "pageSize",
+                        "in": "query",
+                        "type": "number",
+                        "description": "pageSize"
+                    }
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "schema": {
+                            "$ref": "#/definitions/SuccessResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalidate Data",
+                        "schema": {
+                            "$ref": "#/definitions/SuccessResponse"
+                        }
+                    },
+                    "403": {
+                        "description": "Frobidden Access",
+                        "schema": {
+                            "$ref": "#/definitions/SuccessResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server",
+                        "schema": {
+                            "$ref": "#/definitions/ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/admin/camera/detail": {
+            "get": {
+                "tags": [
+                    "camera"
+                ],
+                "parameters": [
+                    {
+                        "name": "cameraId",
+                        "in": "query",
+                        "description": "id camera",
+                        "type": "number"
+                    }
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "schema": {
+                            "$ref": "#/definitions/SuccessResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalidate Data",
+                        "schema": {
+                            "$ref": "#/definitions/SuccessResponse"
+                        }
+                    },
+                    "403": {
+                        "description": "Frobidden Access",
+                        "schema": {
+                            "$ref": "#/definitions/SuccessResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server",
+                        "schema": {
+                            "$ref": "#/definitions/ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
         "/admin/type/create": {
             "post": {
                 "tags": [
@@ -437,6 +549,62 @@
                                 }
                             }
                         }
+                    }
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "schema": {
+                            "$ref": "#/definitions/SuccessResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalidate Data",
+                        "schema": {
+                            "$ref": "#/definitions/SuccessResponse"
+                        }
+                    },
+                    "403": {
+                        "description": "Frobidden Access",
+                        "schema": {
+                            "$ref": "#/definitions/SuccessResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server",
+                        "schema": {
+                            "$ref": "#/definitions/ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/admin/type/find/all": {
+            "get": {
+                "tags": [
+                    "Type of product"
+                ],
+                "parameters": [
+                    {
+                        "name": "name",
+                        "in": "query",
+                        "description": "name product",
+                        "type": "string"
+                    },
+                    {
+                        "name": "pageNum",
+                        "in": "query",
+                        "type": "number",
+                        "description": "pageNum"
+                    },
+                    {
+                        "name": "pageSize",
+                        "in": "query",
+                        "type": "number",
+                        "description": "pageSize"
                     }
                 ],
                 "produces": [
@@ -558,15 +726,13 @@
                                     "type": "string"
                                 },
                                 "type": {
-                                    "type": "array",
-                                    "items": {
-                                        "properties": {
-                                            "id": {
-                                                "type": "number"
-                                            },
-                                            "name": {
-                                                "type": "string"
-                                            }
+                                    "type": "object",
+                                    "properties": {
+                                        "id": {
+                                            "type": "number"
+                                        },
+                                        "name": {
+                                            "type": "string"
                                         }
                                     }
                                 },
@@ -658,7 +824,7 @@
                     {
                         "name": "update product",
                         "in": "body",
-                        "description": "update product",
+                        "description": "update product - note: images and type should send full",
                         "required": true,
                         "schema": {
                             "properties": {
@@ -679,6 +845,54 @@
                                 },
                                 "description": {
                                     "type": "string"
+                                },
+                                "type": {
+                                    "type": "object",
+                                    "properties": {
+                                        "id": {
+                                            "type": "number"
+                                        },
+                                        "name": {
+                                            "type": "string"
+                                        }
+                                    }
+                                },
+                                "images": {
+                                    "type": "array",
+                                    "items": {
+                                        "properties": {
+                                            "id": {
+                                                "type": "number"
+                                            },
+                                            "path": {
+                                                "type": "string"
+                                            },
+                                            "size": {
+                                                "type": "string"
+                                            },
+                                            "mimetype": {
+                                                "type": "string"
+                                            },
+                                            "originalname": {
+                                                "type": "string"
+                                            },
+                                            "encoding": {
+                                                "type": "string"
+                                            },
+                                            "filename": {
+                                                "type": "string"
+                                            },
+                                            "priority": {
+                                                "type": "string"
+                                            },
+                                            "created_at": {
+                                                "type": "string"
+                                            },
+                                            "updated_at": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -715,7 +929,7 @@
                 }
             }
         },
-        "/admin/product/delete/{productId}": {
+        "/admin/product/delete": {
             "delete": {
                 "tags": [
                     "Product"
@@ -729,11 +943,304 @@
                         "type": "string"
                     },
                     {
-                        "name": "productId",
-                        "in": "path",
-                        "required": "true",
-                        "description": "id of product",
+                        "name": "arrId",
+                        "in": "query",
+                        "description": "arrId of product",
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "schema": {
+                            "$ref": "#/definitions/SuccessResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalidate Data",
+                        "schema": {
+                            "$ref": "#/definitions/SuccessResponse"
+                        }
+                    },
+                    "403": {
+                        "description": "Frobidden Access",
+                        "schema": {
+                            "$ref": "#/definitions/SuccessResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server",
+                        "schema": {
+                            "$ref": "#/definitions/ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/product/find/all": {
+            "get": {
+                "tags": [
+                    "Product"
+                ],
+                "parameters": [
+                    {
+                        "name": "name",
+                        "in": "query",
+                        "description": "name product",
+                        "type": "string"
+                    },
+                    {
+                        "name": "minPrice",
+                        "in": "query",
+                        "description": "haven't supported",
                         "type": "number"
+                    },
+                    {
+                        "name": "maxPrice",
+                        "in": "query",
+                        "description": "haven't supported",
+                        "type": "number"
+                    },
+                    {
+                        "name": "status",
+                        "in": "query",
+                        "description": "[SHOW , HIDDEN]",
+                        "type": "string"
+                    },
+                    {
+                        "name": "typeName",
+                        "in": "query",
+                        "description": "name of type",
+                        "type": "string"
+                    },
+                    {
+                        "name": "pageNum",
+                        "in": "query",
+                        "type": "number",
+                        "description": "pageNum"
+                    },
+                    {
+                        "name": "pageSize",
+                        "in": "query",
+                        "type": "number",
+                        "description": "pageSize"
+                    }
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "schema": {
+                            "$ref": "#/definitions/SuccessResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalidate Data",
+                        "schema": {
+                            "$ref": "#/definitions/SuccessResponse"
+                        }
+                    },
+                    "403": {
+                        "description": "Frobidden Access",
+                        "schema": {
+                            "$ref": "#/definitions/SuccessResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server",
+                        "schema": {
+                            "$ref": "#/definitions/ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/product/detail": {
+            "get": {
+                "tags": [
+                    "Product"
+                ],
+                "parameters": [
+                    {
+                        "name": "productId",
+                        "in": "query",
+                        "description": "id product",
+                        "type": "number"
+                    }
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "schema": {
+                            "$ref": "#/definitions/SuccessResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalidate Data",
+                        "schema": {
+                            "$ref": "#/definitions/SuccessResponse"
+                        }
+                    },
+                    "403": {
+                        "description": "Frobidden Access",
+                        "schema": {
+                            "$ref": "#/definitions/SuccessResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server",
+                        "schema": {
+                            "$ref": "#/definitions/ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/admin/video/create": {
+            "post": {
+                "tags": [
+                    "video"
+                ],
+                "parameters": [
+                    {
+                        "name": "authorization",
+                        "required": true,
+                        "in": "header",
+                        "description": "json web token",
+                        "type": "string"
+                    },
+                    {
+                        "name": "create video info",
+                        "in": "body",
+                        "description": "create video info",
+                        "required": true,
+                        "schema": {
+                            "properties": {
+                                "name": {
+                                    "type": "string"
+                                },
+                                "description": {
+                                    "type": "string"
+                                },
+                                "camera": {
+                                    "type": "object",
+                                    "properties": {
+                                        "id": {
+                                            "type": "number"
+                                        },
+                                        "name": {
+                                            "type": "string"
+                                        }
+                                    }
+                                },
+                                "product": {
+                                    "type": "array",
+                                    "items": {
+                                        "properties": {
+                                            "id": {
+                                                "type": "number"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "schema": {
+                            "$ref": "#/definitions/SuccessResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalidate Data",
+                        "schema": {
+                            "$ref": "#/definitions/SuccessResponse"
+                        }
+                    },
+                    "403": {
+                        "description": "Frobidden Access",
+                        "schema": {
+                            "$ref": "#/definitions/SuccessResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server",
+                        "schema": {
+                            "$ref": "#/definitions/ErrorResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/admin/video/update": {
+            "put": {
+                "tags": [
+                    "video"
+                ],
+                "parameters": [
+                    {
+                        "name": "authorization",
+                        "required": true,
+                        "in": "header",
+                        "description": "json web token",
+                        "type": "string"
+                    },
+                    {
+                        "name": "update video info",
+                        "in": "body",
+                        "description": "update video info",
+                        "required": true,
+                        "schema": {
+                            "properties": {
+                                "id": {
+                                    "type": "number"
+                                },
+                                "name": {
+                                    "type": "string"
+                                },
+                                "description": {
+                                    "type": "string"
+                                },
+                                "camera": {
+                                    "type": "object",
+                                    "properties": {
+                                        "id": {
+                                            "type": "number"
+                                        },
+                                        "name": {
+                                            "type": "string"
+                                        }
+                                    }
+                                },
+                                "product": {
+                                    "type": "array",
+                                    "items": {
+                                        "properties": {
+                                            "id": {
+                                                "type": "number"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
                     }
                 ],
                 "produces": [

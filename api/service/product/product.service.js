@@ -22,28 +22,115 @@ class ProductService {
     })
   }
 
-  update() { }
+  update(newProduct, images, type) {
+    return sequelize.transaction(t => {
+      return models.Product.findById(newProduct.id, { transaction: t }).then(product => {
+        if (type && type.id) newProduct.type_id = type.id;
+        return product.update(newProduct, { transaction: t }).then(() => {
+          let condition = [];
+          // search images by array id 
+          images.forEach(image => {
+            condition.push({ id: image.id });
+          })
+          return models.ImageUpload.find({ where: { [Op.or]: condition }, transaction: t }).then(imageResult => {
+            //update product_id in all new images and  product_id = null in all old images 
+            return product.setImages(imageResult, { transaction: t });
+          })
+        });
+      })
+    })
+  }
 
   updateStatus(productId, status) {
     return models.Product.update({ status }, { where: { id: productId } });
   }
 
-  delete(productId) {
-    return models.Product.destroy({ where: { id: productId } });
+  delete(arrId) {
+    return models.Product.destroy({ where: { [Op.or]: arrId } });
   }
 
   findById(productId) {
     return models.Product.findById(productId, {
       include: [
         {
-          model: models.FileUpload,
+          model: models.ImageUpload,
           as: "images"
-        }
+        },
+        {
+          model: models.Type,
+          as: "type"
+        },
+        //  {
+        //   model: models.Video,
+        //   as: "videos",
+        //   through: {
+        //     attributes: []
+        //   }
+        // }
       ]
     });
   }
 
-  findAllByStore(params) { }
+  findByName(name) {
+    return models.Product.findOne({
+      where: { name: name }
+    });
+  }
+
+  findAll(params) {
+    let name = params.name;
+    let minPrice = params.minPrice;
+    let maxPrice = params.maxPrice;
+    let status = params.status;
+    let typeName = params.typeName;
+    let limit = params.limit;
+    let offset = params.offset;
+
+    let conditions = {};  // using for search by product 
+
+    let conditionOfType = {}; // using for search by type of product 
+
+    // build condition for product
+    if (name) {
+      conditions.name = { [Op.like]: "%" + name + "%" };
+    }
+
+    if (minPrice) {
+
+    }
+
+    if (maxPrice) {
+
+    }
+
+    if (status) {
+      conditions.status = { [Op.eq]: status };
+    }
+
+    //  build condition for Type of product
+    if (typeName) {
+      conditionOfType.name = { [Op.like]: "%" + typeName + "%" };
+    }
+
+    return models.Product.findAndCountAll(
+      {
+        where: conditions,
+        limit,
+        offset,
+        include: [
+          {
+            model: models.ImageUpload,
+            as: "images"
+          },
+          {
+            model: models.Type,
+            as: "type",
+            where: conditionOfType
+          }
+        ]
+      }
+    )
+  }
 }
 
 module.exports = ProductService;

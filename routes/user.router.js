@@ -10,12 +10,6 @@ const userController = new UserController();
 const Auth = require("../api/controllers/auth/auth.controller");
 const auth = new Auth();
 router
-  //user
-  .post(
-    "/user/password/change",
-    validation(entryDataValidate.changePassword),
-    auth.isLogin,
-    userController.changePassword
-  )
+  .post("/user/password/change",validation(entryDataValidate.changePassword),auth.isLogin,userController.changePassword)
   .post("/user/login", validation(entryDataValidate.login), userController.login);
 module.exports = router;

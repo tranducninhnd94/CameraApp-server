@@ -10,13 +10,19 @@ const productManagerController = new ProductManagerController();
 const ProductController = require("../api/controllers/product/product.controller");
 const productController = new ProductController();
 
+const TypeManagerController = require("../api/controllers/product/admin/type-manager.controller");
+const typeManagerController = new TypeManagerController();
+
 const Auth = require("../api/controllers/auth/auth.controller");
 const auth = new Auth();
 
-router.post(
-  "/admin/product/create",
-  validation(entryDataValidate.createProduct),
-  productManagerController.createProduct
-);
-
+router
+  .post("/admin/product/create", auth.isAdmin, validation(entryDataValidate.createProduct), productManagerController.createProduct)
+  .put("/admin/product/update", auth.isAdmin, validation(entryDataValidate.updateProduct), productManagerController.updateProduct)
+  .delete("/admin/product/delete", auth.isAdmin, validation(entryDataValidate.deleteProduct), productManagerController.deleteProduct)
+  .get("/product/find/all", validation(entryDataValidate.findAllProduct), productManagerController.findAll)
+  .get("/product/detail", validation(entryDataValidate.getDetailProduct), productManagerController.getDetailProduct)
+  // type of product
+  .post("/admin/type/create", auth.isAdmin, validation(entryDataValidate.creatType), typeManagerController.createType)
+  .post("/admin/type/update", auth.isAdmin, validation(entryDataValidate.updateType), typeManagerController.updateType)
 module.exports = router;

@@ -29,6 +29,7 @@ module.exports = {
             sale_price: obj.sale_price,
             status: obj.status,
             description: obj.description,
+            type: obj.type,
             images: obj.images,
             create_at: obj.create_at,
             update_at: obj.update_at

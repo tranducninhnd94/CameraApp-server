@@ -8,11 +8,13 @@ module.exports = (sequelize, DataTypes) => {
         autoIncrement: true
       },
       name: {
-        type: DataTypes.STRING
+        type: DataTypes.STRING,
+        require: true,
+        unique: true
       }
     },
     {
-      timestamps: false,
+      timestamps: true,
       underscored: true,
       freezeTableName: true,
       tableName: "type"

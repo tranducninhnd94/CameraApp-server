@@ -10,7 +10,9 @@ class Auth {
     }
   }
 
-  isAdmin(req, res, next) { }
+  isAdmin(req, res, next) {
+    next();
+   }
 }
 
 module.exports = Auth;

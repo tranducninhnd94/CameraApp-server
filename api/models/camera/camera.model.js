@@ -7,9 +7,28 @@ module.exports = (sequelize, DataTypes) => {
         primaryKey: true,
         autoIncrement: true
       },
-      uri: {
+      name: {
+        type: DataTypes.STRING,
+        require: true,
+        unique: true
+      },
+      namespace: {
+        type: DataTypes.STRING,
+        require: true,
+        unique: true
+      },
+      resolution: {
         type: DataTypes.STRING,
         require: true
+      },
+      fileOutput: {
+        type: DataTypes.STRING,
+        require: true
+      },
+      uri: {
+        type: DataTypes.STRING,
+        require: true,
+        unique: true
       },
       location: {
         type: DataTypes.STRING,

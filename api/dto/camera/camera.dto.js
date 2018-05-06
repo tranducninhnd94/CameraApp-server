@@ -31,8 +31,9 @@ module.exports = {
       fileOutput: obj.fileOutput,
       uri: obj.uri,
       location: obj.location,
-      create_at: obj.create_at,
-      update_at: obj.update_at
+      videos: obj.video,
+      created_at: obj.created_at,
+      updated_at: obj.created_at
     };
   }
 };

@@ -5,25 +5,15 @@ var Joi = require("joi");
 module.exports = {
   changePassword: {
     body: {
-      password: Joi.string()
-        .alphanum()
-        .required()
+      password: Joi.string().alphanum().required()
     }
   },
 
   login: {
     body: Joi.object().keys(
       {
-        email: Joi.string()
-          .email()
-          .min(4)
-          .max(45)
-          .required(),
-        password: Joi.string()
-          .alphanum()
-          .min(4)
-          .max(16)
-          .required()
+        email: Joi.string().email().min(4).max(45).required(),
+        password: Joi.string().alphanum().min(4).max(16).required()
       }
     )
   },
@@ -56,31 +46,57 @@ module.exports = {
     )
   },
 
+  findAllCamera: {
+    query: {
+      name: Joi.string(),
+      uri: Joi.string(),
+      location: Joi.string(),
+      pageNum: Joi.number().min(0),
+      pageSize: Joi.number().min(1)
+    }
+  },
+
+  getDetailCamera: {
+    query: {
+      cameraId: Joi.number().required()
+    }
+  },
+
+  //type
+  creatType: {
+    body: {
+      name: Joi.string().min(3).max(30).required()
+    }
+  },
+
+  updateType: {
+    body: {
+      id: Joi.number().required(),
+      name: Joi.string().min(3).max(30).required()
+    }
+  },
+
+  findAllType: {
+    query: {
+      name: Joi.string().min(3).max(30),
+      pageNum: Joi.number().min(0).default(0),
+      pageSize: Joi.number().min(1).default(5)
+    }
+  },
 
   // product
   createProduct: {
     body: {
-      name: Joi.string()
-        .min(3)
-        .max(30)
-        .required(),
-
+      name: Joi.string().min(3).max(30).required(),
       original_price: Joi.number().required(),
-
       sale_price: Joi.number().required(),
-
-      status: Joi.string()
-        .allow("HIDDEN", "SHOW")
-        .required()
-        .default("SHOW"),
-
+      status: Joi.string().allow("HIDDEN", "SHOW").required().default("SHOW"),
       type: Joi.object().keys(
         {
           id: Joi.number().required(),
           name: Joi.string().required(),
         }
       ),
-
       images: Joi.array().items(
         Joi.object().keys({
           id: Joi.number().required(),
@@ -90,34 +106,20 @@ module.exports = {
           originalname: Joi.string().required(),
           encoding: Joi.string().required(),
           filename: Joi.string().required(),
-          is_used: Joi.boolean(),
           priority: Joi.number().default(0),
           created_at: Joi.date(),
           updated_at: Joi.date()
         })
       ),
-
-      description: Joi.string()
-        .max(5000)
-        .required()
+      description: Joi.string().max(5000).required()
     }
   },
   updateProduct: {
     body: {
-      name: Joi.string()
-        .min(3)
-        .max(30)
-        .required(),
-
-      original_price: Joi.number().required(),
-
-      sale_price: Joi.number().required(),
-
-      status: Joi.string()
-        .allow("HIDDEN", "SHOW")
-        .required()
-        .default("SHOW"),
-
+      name: Joi.string().min(3).max(30).required(),
+      original_price: Joi.number(),
+      sale_price: Joi.number(),
+      status: Joi.string().allow("HIDDEN", "SHOW").required().default("SHOW"),
       images: Joi.array().items(
         Joi.object().keys({
           id: Joi.number().required(),
@@ -127,37 +129,41 @@ module.exports = {
           originalname: Joi.string().required(),
           encoding: Joi.string().required(),
           filename: Joi.string().required(),
-          is_used: Joi.boolean(),
           priority: Joi.number().default(0),
           created_at: Joi.date(),
           updated_at: Joi.date()
         })
       ),
-
-      description: Joi.string()
-        .max(5000)
-        .required()
+      description: Joi.string().max(5000)
     }
   },
 
   updateStatusProduct: {
     body: {
-      status: Joi.string()
-        .allow("HIDDEN", "SHOW")
-        .required()
-        .default("SHOW")
+      status: Joi.string().allow("HIDDEN", "SHOW").required().default("SHOW")
     }
   },
 
-  findAll: {
+  findAllProduct: {
     query: {
-      nameProduct: Joi.string()
-        .min(3)
-        .max(30),
+      name: Joi.string().min(3).max(30),
+      minPrice: Joi.number().min(1000),
+      maxPrice: Joi.number().min(1000),
+      status: Joi.string().allow("HIDDEN", "SHOW").default("SHOW"),
+      pageNum: Joi.number().min(0).default(0),
+      pageSize: Joi.number().min(1).default(5)
+    }
+  },
 
-      status: Joi.string()
-        .allow("HIDDEN", "SHOW")
-        .default("SHOW")
+  getDetailProduct: {
+    query: {
+      productId: Joi.number().required()
+    }
+  },
+
+  deleteProduct: {
+    query: {
+      arrId: Joi.array().required()
     }
   }
 };
