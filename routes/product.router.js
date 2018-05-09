@@ -4,13 +4,13 @@ const router = express.Router();
 const validation = require("express-validation");
 const entryDataValidate = require("./validation/entry.data.validate");
 
-const ProductManagerController = require("../api/controllers/product/admin/product-manager.controller");
+const ProductManagerController = require("../api/controllers/admin/product/product-manager.controller");
 const productManagerController = new ProductManagerController();
 
-const ProductController = require("../api/controllers/product/product.controller");
-const productController = new ProductController();
+// const ProductController = require("../api/controllers/product/product.controller");
+// const productController = new ProductController();
 
-const TypeManagerController = require("../api/controllers/product/admin/type-manager.controller");
+const TypeManagerController = require("../api/controllers/admin/product/type-manager.controller");
 const typeManagerController = new TypeManagerController();
 
 const Auth = require("../api/controllers/auth/auth.controller");

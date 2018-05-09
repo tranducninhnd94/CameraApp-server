@@ -5,7 +5,7 @@ const validation = require("express-validation");
 const entryDataValidate = require("./validation/entry.data.validate");
 
 
-const CameraManagerController = require("../api/controllers/camera/admin/camera.controller");
+const CameraManagerController = require("../api/controllers/admin/camera/camera.controller");
 const cameraManagerController = new CameraManagerController();
 
 const Auth = require("../api/controllers/auth/auth.controller");

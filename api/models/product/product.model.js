@@ -51,6 +51,19 @@ module.exports = (sequelize, DataTypes) => {
       through: models.ProductCamera,
       foreignKey: "product_id"
     });
+
+    models.Product.belongsToMany(models.Promotion, {
+      as: "promotions",
+      through: models.ProductPromotion,
+      foreignKey: "product_id"
+    });
+
+    models.Product.belongsToMany(models.Order, {
+      as: "orders",
+      through: models.OrderProduct,
+      foreignKey: "product_id"
+    });
+
   };
   return Product;
 };
