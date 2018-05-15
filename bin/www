@@ -7,6 +7,10 @@
 var app = require("../app");
 var debug = require("debug")("cameraapp-server:server");
 var http = require("http");
+var ScheduleService = require("../schedule/schedule");
+
+var scheduleService = new ScheduleService();
+scheduleService.setScheduler();
 
 /**
  * Get port from environment and store in Express.
@@ -25,8 +29,8 @@ var server = http.createServer(app);
  * Socket io
  */
 
-// var io = require('socket.io')(server);
-// var ioService = require("../ffmpeg/init")(io);
+var io = require('socket.io')(server);
+var ioService = require("../ffmpeg/init-camera")(io);
 
 /**
  * Listen on provided port, on all network interfaces.

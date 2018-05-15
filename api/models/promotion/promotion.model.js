@@ -23,13 +23,13 @@ module.exports = (sequelize, DataTypes) => {
         }
     );
 
-    Promotion.associate = models => {
-        models.Promotion.belongsToMany(models.Product, {
-            as: "products",
-            through: models.ProductPromotion,
-            foreignKey: "promotion_id"
-        });
-    };
+    // Promotion.associate = models => {
+    //     models.Promotion.belongsToMany(models.Product, {
+    //         as: "products",
+    //         through: models.ProductPromotion,
+    //         foreignKey: "promotion_id"
+    //     });
+    // };
 
     return Promotion;
 };

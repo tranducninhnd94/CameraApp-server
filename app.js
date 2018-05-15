@@ -16,43 +16,8 @@ var swaggerDocument = require("./api/swagger/swagger.json");
 
 var app = express();
 
-var db = require("./api/models/index");
-db.sequelize.query("SET FOREIGN_KEY_CHECKS = 0", { raw: true }).then(function (results) {
-  db.sequelize.sync({ force: false })
-    .then(() => {
+// var init_db_fake = require("./db-init");
 
-      db.Role.findOrCreate({
-        where: {
-          name: "ADMIN"
-        }
-      })
-        .spread(function (roleResult, created) {
-          db.User.findOrCreate({
-            where: {
-              email: "tranducninhnd94@hotmail.com"
-            },
-            defaults: {
-              password: "1234",
-              fullname: "Tran Duc Ninh",
-              phone_number: "01669709094",
-              address: "Nam Dinh",
-            }
-          })
-            .spread(function (userResult, created) {
-
-              userResult.setRoles([roleResult]);
-              // if (created) {
-              //   console.log("new user created");
-              // }
-              // else {
-              //   console.log("user existed!");
-              // }
-            });
-        });
-
-
-    });
-});
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");

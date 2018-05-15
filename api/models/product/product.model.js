@@ -52,11 +52,11 @@ module.exports = (sequelize, DataTypes) => {
       foreignKey: "product_id"
     });
 
-    models.Product.belongsToMany(models.Promotion, {
-      as: "promotions",
-      through: models.ProductPromotion,
-      foreignKey: "product_id"
-    });
+    // models.Product.belongsToMany(models.Promotion, {
+    //   as: "promotions",
+    //   through: models.ProductPromotion,
+    //   foreignKey: "product_id"
+    // });
 
     models.Product.belongsToMany(models.Order, {
       as: "orders",

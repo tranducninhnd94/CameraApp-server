@@ -29,6 +29,12 @@ module.exports = (sequelize, DataTypes) => {
       address: {
         type: DataTypes.STRING,
         require: true
+      },
+      fb_address: {
+        type: DataTypes.STRING
+      },
+      zalo_address: {
+        type: DataTypes.STRING
       }
     },
     {
@@ -45,6 +51,12 @@ module.exports = (sequelize, DataTypes) => {
       through: models.UserRole,
       foreignKey: "user_id"
     });
+
+    models.User.belongsTo(models.Ward, {
+      as: "ward",
+      foreignKey: "ward_id"
+    })
+
   };
 
   User.hook("beforeCreate", (user, options) => {

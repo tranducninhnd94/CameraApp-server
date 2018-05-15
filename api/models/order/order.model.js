@@ -29,6 +29,16 @@ module.exports = (sequelize, DataTypes) => {
             through: models.OrderProduct,
             foreignKey: "order_id"
         });
+
+        models.Order.belongsTo(models.User, {
+            as: "customer",
+            foreignKey: "user_id"
+        })
+
+        // models.Order.belongsTo(models.Province, {
+        //     as: "province",
+        //     foreignKey: "province_id"
+        // })
     };
 
     return Order;
