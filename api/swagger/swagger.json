@@ -225,9 +225,6 @@
                                 "name": {
                                     "type": "string"
                                 },
-                                "namespace": {
-                                    "type": "string"
-                                },
                                 "resolution": {
                                     "type": "string"
                                 },
@@ -238,6 +235,12 @@
                                     "type": "string"
                                 },
                                 "location": {
+                                    "type": "string"
+                                },
+                                "status":{
+                                    "type": "string"
+                                },
+                                "description":{
                                     "type": "string"
                                 }
                             }
@@ -301,9 +304,6 @@
                                 "name": {
                                     "type": "string"
                                 },
-                                "namespace": {
-                                    "type": "string"
-                                },
                                 "resolution": {
                                     "type": "string"
                                 },
@@ -314,6 +314,12 @@
                                     "type": "string"
                                 },
                                 "location": {
+                                    "type": "string"
+                                },
+                                "status": {
+                                    "type": "string"
+                                },
+                                "description": {
                                     "type": "string"
                                 }
                             }
@@ -1127,10 +1133,31 @@
                         "required": true,
                         "schema": {
                             "properties": {
-                                "name": {
+                                "id_video": {
+                                    "type": "string"
+                                },
+                                "url": {
+                                    "type": "string"
+                                },
+                                "hosted_by": {
+                                    "type": "string"
+                                },
+                                "title": {
                                     "type": "string"
                                 },
                                 "description": {
+                                    "type": "string"
+                                },
+                                "started_at": {
+                                    "type": "string"
+                                },
+                                "ended_at": {
+                                    "type": "string"
+                                },
+                                "embedded_link": {
+                                    "type": "string"
+                                },
+                                "created_type": {
                                     "type": "string"
                                 },
                                 "camera": {

@@ -16,7 +16,9 @@ var swaggerDocument = require("./api/swagger/swagger.json");
 
 var app = express();
 
-// var init_db_fake = require("./db-init");
+const FakeDatabase = require("./db-init");
+const fakeDatabase = new FakeDatabase();
+fakeDatabase.init();
 
 // view engine setup
 app.set("views", path.join(__dirname, "views"));

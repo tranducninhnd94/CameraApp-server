@@ -14,6 +14,15 @@ class ErrorResponse {
     }
 }
 
-const StandardResponse = { SuccessResponse, ErrorResponse };
+class DataTableResponse {
+    constructor(draw, recordsTotal, data) {
+        this.draw = draw;
+        this.recordsTotal = recordsTotal;
+        this.recordsFiltered = recordsTotal;
+        this.data = data;
+    }
+}
+
+const StandardResponse = { SuccessResponse, ErrorResponse, DataTableResponse};
 
 module.exports = StandardResponse;

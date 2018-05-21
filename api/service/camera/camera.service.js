@@ -2,10 +2,16 @@ const models = require("../../models/index");
 const sequelize = models.sequelize;
 const Sequelize = models.Sequelize;
 const Op = Sequelize.Op;
+const Constant = require("../../common/constants");
 
-class ProductService {
+class CameraService {
   create(obj) {
-    return models.Camera.create(obj);
+    return sequelize.transaction(t => {
+      return models.Camera.create(obj, { transaction: t }).then(rs => {
+        let namespace = Constant.PREFIX_NAMESPACE + rs.id;
+        return rs.update({ namespace }, { transaction: t });
+      });
+    })
   }
 
   update(obj, cameraId) {
@@ -69,4 +75,4 @@ class ProductService {
   }
 }
 
-module.exports = ProductService;
+module.exports = CameraService;

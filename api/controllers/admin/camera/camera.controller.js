@@ -6,6 +6,8 @@ const CameraDTO = require("../../../dto/camera/camera.dto");
 const StandardResponse = require("../../../dto/res.dto");
 const SuccessResponse = StandardResponse.SuccessResponse;
 const ErrorResponse = StandardResponse.ErrorResponse;
+const DataTableResponse = StandardResponse.DataTableResponse;
+
 
 const CustomizeError = require("../../../exception/customize-error");
 const TAG = "CAMERA_CONTROLLER";
@@ -17,7 +19,7 @@ class CameraManagerController {
     let _body = req.body;
     let newCamera = CameraDTO.infoCreate(_body);
 
-    Promise.all([cameraService.findByName(newCamera.name), cameraService.findByNamespace(newCamera.namespace), cameraService.findByUri(newCamera.uri)]).then(value => {
+    Promise.all([cameraService.findByName(newCamera.name), cameraService.findByUri(newCamera.uri)]).then(value => {
 
       if (value[0]) {
         let error = new CustomizeError(TAG, 400, `name (${newCamera.name})  is existed`);
@@ -25,11 +27,11 @@ class CameraManagerController {
         return;
       }
 
-      if (value[1]) {
-        let error = new CustomizeError(TAG, 400, `namaspace (${newCamera.namespace}) is existed`);
-        next(error);
-        return;
-      }
+      // if (value[1]) {
+      //   let error = new CustomizeError(TAG, 400, `namaspace (${newCamera.namespace}) is existed`);
+      //   next(error);
+      //   return;
+      // }
 
       if (value[2]) {
         let error = new CustomizeError(TAG, 400, `uri (${newCamera.uri}) are existed`);
@@ -62,7 +64,7 @@ class CameraManagerController {
     }
 
     let newCamera = CameraDTO.infoUpdate(_body);
-    Promise.all([cameraService.findByName(newCamera.name), cameraService.findByNamespace(newCamera.namespace)]).then(value => {
+    Promise.all([cameraService.findByName(newCamera.name), cameraService.findByUri(newCamera.uri)]).then(value => {
 
       if (value[0] && value[0].id != newCamera.id) {
         let error = new CustomizeError(TAG, 400, `name (${newCamera.name})  is existed`);
@@ -70,11 +72,11 @@ class CameraManagerController {
         return;
       }
 
-      if (value[1] && value[1].id != newCamera.id) {
-        let error = new CustomizeError(TAG, 400, `namaspace (${newCamera.namespace}) is existed`);
-        next(error);
-        return;
-      }
+      // if (value[1] && value[1].id != newCamera.id) {
+      //   let error = new CustomizeError(TAG, 400, `namaspace (${newCamera.namespace}) is existed`);
+      //   next(error);
+      //   return;
+      // }
 
       if (value[2] && value[2].id != newCamera.id) {
         let error = new CustomizeError(TAG, 400, `uri (${newCamera.uri}) are existed`);
@@ -120,6 +122,31 @@ class CameraManagerController {
 
       let value = { total, arr };
       let successResponse = new SuccessResponse(200, "Success", value);
+      return res.status(200).json(successResponse);
+    }).catch(error => {
+      next(error);
+    })
+  }
+
+  findAllForDataTable(req, res, next) {
+    console.log("ahfahsfhioasdhfioaidfh");
+    let draw = req.query.draw;
+    let offset = req.query.start || constant.OFFSET_DEFAULT; // default bootstrap start page offset at 0
+    let pageSize = req.query.length || constant.PAGESIZE_DEFAULT;
+    let limit = pageSize;
+    let params = { limit, offset };
+
+    cameraService.findAll(params).then(result => {
+      let total = result.count || 0;
+      let rows = result.rows || [];
+
+      let arr = [];
+      rows.forEach(el => {
+        arr.push(CameraDTO.infoResponse(el));
+      });
+
+      let value = { total, arr };
+      let successResponse = new DataTableResponse(draw, total, arr);
       return res.status(200).json(successResponse);
     }).catch(error => {
       next(error);

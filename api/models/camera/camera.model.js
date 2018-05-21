@@ -33,6 +33,14 @@ module.exports = (sequelize, DataTypes) => {
       location: {
         type: DataTypes.STRING,
         require: true
+      },
+      status: {
+        type: DataTypes.ENUM,
+        values: ["ON", "OFF", "RETIRED"],
+        defaultValue: "OFF"
+      },
+      description: {
+        type: DataTypes.STRING
       }
     },
     {

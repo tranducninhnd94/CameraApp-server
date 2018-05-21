@@ -23,11 +23,12 @@ module.exports = {
     body: Joi.object().keys(
       {
         name: Joi.string().required(),
-        namespace: Joi.string().required(),
         resolution: Joi.string(),
         fileOutput: Joi.string(),
         uri: Joi.string().required(),
-        location: Joi.string().required()
+        location: Joi.string().required(),
+        status: Joi.string().valid("ON", "OFF", "RETIRED").default("OFF"),
+        description: Joi.string()
       }
     )
   },
@@ -37,11 +38,12 @@ module.exports = {
       {
         id: Joi.number().required(),
         name: Joi.string().required(),
-        namespace: Joi.string().required(),
         resolution: Joi.string(),
         fileOutput: Joi.string(),
         uri: Joi.string().required(),
-        location: Joi.string().required()
+        location: Joi.string().required(),
+        status: Joi.string().valid("ON", "OFF", "RETIRED"),
+        description: Joi.string()
       }
     )
   },
@@ -53,6 +55,14 @@ module.exports = {
       location: Joi.string(),
       pageNum: Joi.number().min(0),
       pageSize: Joi.number().min(1)
+    }
+  },
+
+  findAllCameraForDataTable: {
+    query: {
+      draw: Joi.number(),
+      start: Joi.number().min(0),
+      length: Joi.number().min(1)
     }
   },
 
@@ -90,7 +100,7 @@ module.exports = {
       name: Joi.string().min(3).max(30).required(),
       original_price: Joi.number().required(),
       sale_price: Joi.number().required(),
-      status: Joi.string().allow("HIDDEN", "SHOW").required().default("SHOW"),
+      status: Joi.string().valid("HIDDEN", "SHOW").required().default("SHOW"),
       type: Joi.object().keys(
         {
           id: Joi.number().required(),
@@ -119,7 +129,7 @@ module.exports = {
       name: Joi.string().min(3).max(30).required(),
       original_price: Joi.number(),
       sale_price: Joi.number(),
-      status: Joi.string().allow("HIDDEN", "SHOW").required().default("SHOW"),
+      status: Joi.string().valid("HIDDEN", "SHOW").required().default("SHOW"),
       images: Joi.array().items(
         Joi.object().keys({
           id: Joi.number().required(),
@@ -140,7 +150,7 @@ module.exports = {
 
   updateStatusProduct: {
     body: {
-      status: Joi.string().allow("HIDDEN", "SHOW").required().default("SHOW")
+      status: Joi.string().valid("HIDDEN", "SHOW").required().default("SHOW")
     }
   },
 
@@ -149,7 +159,7 @@ module.exports = {
       name: Joi.string().min(3).max(30),
       minPrice: Joi.number().min(1000),
       maxPrice: Joi.number().min(1000),
-      status: Joi.string().allow("HIDDEN", "SHOW").default("SHOW"),
+      status: Joi.string().valid("HIDDEN", "SHOW").default("SHOW"),
       pageNum: Joi.number().min(0).default(0),
       pageSize: Joi.number().min(1).default(5)
     }
@@ -164,6 +174,21 @@ module.exports = {
   deleteProduct: {
     query: {
       arrId: Joi.array().required()
+    }
+  },
+
+  // video
+  createVideo: {
+    body: {
+      id_video: Joi.string().required(),
+      url: Joi.string().required(),
+      hosted_by: Joi.string().valid("FACEBOOK", "DRIVER", "YOUTUBE", "LOCAL").required(),
+      title:Joi.string().required(),
+      description: Joi.string().required(),
+      started_at: Joi.date().required(),
+      ended_at: Joi.date().required(),
+      embedded_link: Joi.string(),
+      created_type: Joi.string().valid("FREQUENCY", "BY_PRODUCT").required(),
     }
   }
 };

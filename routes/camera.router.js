@@ -15,6 +15,7 @@ router
   .post("/admin/camera/create", auth.isAdmin, validation(entryDataValidate.createCamera), cameraManagerController.createCamera)
   .put("/admin/camera/update", auth.isAdmin, validation(entryDataValidate.updateCamera), cameraManagerController.updateCamera)
   .get("/admin/camera/find/all", auth.isAdmin, validation(entryDataValidate.findAllCamera), cameraManagerController.findAll)
+  .get("/admin/camera/find/all/forDataTable", auth.isAdmin, validation(entryDataValidate.findAllCameraForDataTable), cameraManagerController.findAllForDataTable)
   .get("/admin/camera/detail", auth.isAdmin, validation(entryDataValidate.getDetailCamera), cameraManagerController.getDetailCamera);
 
 module.exports = router;

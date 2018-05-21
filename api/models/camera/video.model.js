@@ -7,13 +7,39 @@ module.exports = (sequelize, DataTypes) => {
         primaryKey: true,
         autoIncrement: true
       },
-      uri: {
+      id_video: {
+        type: DataTypes.STRING
+      },
+      url: {
         type: DataTypes.STRING,
         require: true
       },
-      location: {
+      hosted_by: {
+        type: DataTypes.ENUM,
+        values: ["FACEBOOK", "DRIVER", "YOUTUBE", "LOCAL"],
+        require: true
+      },
+      title: {
         type: DataTypes.STRING,
         require: true
+      },
+      description: {
+        type: DataTypes.STRING
+      },
+      started_at: {
+        type: DataTypes.DATE,
+        require: true
+      },
+      ended_at: {
+        type: DataTypes.DATE,
+        require: true
+      },
+      embedded_link: {
+        type: DataTypes.STRING
+      },
+      created_type: {
+        type: DataTypes.ENUM,
+        values: ["FREQUENCY", "BY_PRODUCT"]
       }
     },
     {
