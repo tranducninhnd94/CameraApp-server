@@ -8,6 +8,7 @@ const ImageUploadDTO = require("../../../dto/file/image-upload.dto");
 const StandardResponse = require("../../../dto/res.dto");
 const SuccessResponse = StandardResponse.SuccessResponse;
 const ErrorResponse = StandardResponse.ErrorResponse;
+const DataTableResponse = StandardResponse.DataTableResponse;
 
 const CustomizeError = require("../../../exception/customize-error");
 
@@ -86,12 +87,12 @@ class ProductManagerController {
 
   deleteProduct(req, res, next) {
     let arrId = req.query.arrId;
-
+    console.log(arrId);
     if (!arrId) {
       let error = new CustomizeError(TAG, 400, "arrId of product must have");
       next(error);
     } else {
-      productService.delete(productId).then(result => {
+      productService.delete(arrId).then(result => {
         if (result) {
           let successReponse = new SuccessResponse(200, "Success", result);
           return res.status(200).json(successReponse);
@@ -161,5 +162,31 @@ class ProductManagerController {
       next(error);
     })
   }
+
+  findAllForDataTable(req, res, next) {
+    let draw = req.query.draw;
+    let offset = req.query.start || constants.OFFSET_DEFAULT; // default bootstrap start page offset at 0
+    let pageSize = req.query.length || constants.PAGESIZE_DEFAULT;
+    let limit = pageSize;
+    let params = { limit, offset };
+
+    productService.findAll(params).then(result => {
+
+      let arr = [];
+      let total = result.count || 0;
+      let rows = result.rows || [];
+      if (rows) {
+        rows.forEach(el => {
+          arr.push(ProductDTO.infoResponse(el));
+        });
+      }
+      let value = { total, arr };
+      let successResponse = new DataTableResponse(draw, total, arr);
+      return res.status(200).json(successResponse);
+    }).catch(error => {
+      next(error);
+    })
+  }
 }
+
 module.exports = ProductManagerController;

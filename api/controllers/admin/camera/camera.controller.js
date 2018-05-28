@@ -129,7 +129,6 @@ class CameraManagerController {
   }
 
   findAllForDataTable(req, res, next) {
-    console.log("ahfahsfhioasdhfioaidfh");
     let draw = req.query.draw;
     let offset = req.query.start || constant.OFFSET_DEFAULT; // default bootstrap start page offset at 0
     let pageSize = req.query.length || constant.PAGESIZE_DEFAULT;

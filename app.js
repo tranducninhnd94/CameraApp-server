@@ -16,9 +16,9 @@ var swaggerDocument = require("./api/swagger/swagger.json");
 
 var app = express();
 
-const FakeDatabase = require("./db-init");
-const fakeDatabase = new FakeDatabase();
-fakeDatabase.init();
+// const FakeDatabase = require("./db-init");
+// const fakeDatabase = new FakeDatabase();
+// fakeDatabase.init();
 
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
@@ -50,7 +50,7 @@ app.use(cameraRouter);
 app.use(userRouter);
 app.use(fileRouter);
 app.use(productRouter);
-app.use("/", index);
+// app.use("/", index);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

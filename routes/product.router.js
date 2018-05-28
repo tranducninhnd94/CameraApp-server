@@ -20,6 +20,7 @@ router
   .post("/admin/product/create", auth.isAdmin, validation(entryDataValidate.createProduct), productManagerController.createProduct)
   .put("/admin/product/update", auth.isAdmin, validation(entryDataValidate.updateProduct), productManagerController.updateProduct)
   .delete("/admin/product/delete", auth.isAdmin, validation(entryDataValidate.deleteProduct), productManagerController.deleteProduct)
+  .get("/admin/product/find/all/forDataTable", validation(entryDataValidate.findAllProductForDataTable), productManagerController.findAllForDataTable)
   .get("/product/find/all", validation(entryDataValidate.findAllProduct), productManagerController.findAll)
   .get("/product/detail", validation(entryDataValidate.getDetailProduct), productManagerController.getDetailProduct)
   // type of product

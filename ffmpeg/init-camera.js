@@ -8,6 +8,7 @@ const CameraDTO = require("../api/dto/camera/camera.dto");
 
 module.exports = io => {
 
+
     models.Camera.findAll().then(result => {
         let arrCams = [];
         if (!result) {
@@ -26,6 +27,7 @@ module.exports = io => {
             });
         })
 
+
         // console.log(arrCams);
 
         // send camera information
@@ -40,7 +42,8 @@ module.exports = io => {
                 input: cam.uri,
                 resolution: cam.resolution,
                 quality: cam.quality,
-                fileOutput: cam.fileOutput
+                fileOutput: cam.fileOutput,
+                namespace: cam.namespace
             });
             stream.on("start", function () {
                 console.log("stream " + cam.name + " started");
@@ -55,14 +58,25 @@ module.exports = io => {
         arrStream.forEach((camStream, i) => {
             let ns = io.of(arrCams[i].namespace);
 
+            let tmp;
+
+            var pipeStream = data => {
+                console.log("data");
+                tmp = data;
+            };
+
+            camStream.on("data", pipeStream);
+
             ns.on("connection", socket => {
                 console.log("connected to came", arrCams[i].name);
 
-                var pipeStream = data => {
-                    socket.emit("data", data);
-                };
+                socket.emit("data", tmp);
 
-                camStream.on("data", pipeStream);
+                // var pipeStream = data => {
+                //     socket.emit("data", data);
+                // };
+
+                // camStream.on("data", pipeStream);
 
                 socket.on("disconnect", () => {
                     console.log("disconnected from /cam" + arrCams[i].name);

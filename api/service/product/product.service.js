@@ -7,12 +7,14 @@ class ProductService {
   create(newProduct, images, type) {
     return sequelize.transaction(t => {
       return models.Product.create(newProduct, { transaction: t }).then(product => {
-        return models.Type.findById(type.id, { transaction: t }).then(type => {
+        return models.Type.findById(type != null ? type.id : null, { transaction: t }).then(type => {
           return product.setType(type, { transaction: t }).then(() => {
             let arrPromise = [];
-            images.forEach(image => {
-              arrPromise.push(models.ImageUpload.update({ priority: image.priority, product_id: product.id }, { where: { id: image.id }, transaction: t }));
-            });
+            if (images) {
+              images.forEach(image => {
+                arrPromise.push(models.ImageUpload.update({ priority: image.priority, product_id: product.id }, { where: { id: image.id }, transaction: t }));
+              });
+            }
             return Promise.all(arrPromise).then(() => {
               return product;
             })
@@ -28,14 +30,16 @@ class ProductService {
         if (type && type.id) newProduct.type_id = type.id;
         return product.update(newProduct, { transaction: t }).then(() => {
           let condition = [];
-          // search images by array id 
-          images.forEach(image => {
-            condition.push({ id: image.id });
-          })
-          return models.ImageUpload.find({ where: { [Op.or]: condition }, transaction: t }).then(imageResult => {
-            //update product_id in all new images and  product_id = null in all old images 
-            return product.setImages(imageResult, { transaction: t });
-          })
+          if (images) {
+            // search images by array id 
+            images.forEach(image => {
+              condition.push({ id: image.id });
+            })
+            return models.ImageUpload.find({ where: { [Op.or]: condition }, transaction: t }).then(imageResult => {
+              //update product_id in all new images and  product_id = null in all old images 
+              return product.setImages(imageResult, { transaction: t });
+            })
+          }
         });
       })
     })
@@ -46,7 +50,7 @@ class ProductService {
   }
 
   delete(arrId) {
-    return models.Product.destroy({ where: { [Op.or]: arrId } });
+    return models.Product.destroy({ where: { id: arrId } });
   }
 
   findById(productId) {
@@ -124,8 +128,8 @@ class ProductService {
           },
           {
             model: models.Type,
-            as: "type",
-            where: conditionOfType
+            as: "type"
+            // where: conditionOfType =>> can not get list product
           }
         ]
       }

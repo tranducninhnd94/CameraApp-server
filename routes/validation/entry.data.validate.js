@@ -101,7 +101,7 @@ module.exports = {
       original_price: Joi.number().required(),
       sale_price: Joi.number().required(),
       status: Joi.string().valid("HIDDEN", "SHOW").required().default("SHOW"),
-      type: Joi.object().keys(
+      type: Joi.object().allow(null).keys(
         {
           id: Joi.number().required(),
           name: Joi.string().required(),
@@ -165,6 +165,14 @@ module.exports = {
     }
   },
 
+  findAllProductForDataTable: {
+    query: {
+      draw: Joi.number(),
+      start: Joi.number().min(0),
+      length: Joi.number().min(1)
+    }
+  },
+  
   getDetailProduct: {
     query: {
       productId: Joi.number().required()
