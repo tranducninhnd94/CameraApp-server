@@ -3,6 +3,8 @@ const path = require("path");
 const rtsp = require("../lib/rtsp-ffmpeg");
 const models = require("../api/models/index");
 const CameraDTO = require("../api/dto/camera/camera.dto");
+const events = require('events');
+
 // const sequelize = models.sequelize;
 // const Sequelize = models.Sequelize;
 
@@ -56,12 +58,16 @@ module.exports = io => {
 
         //create namespace and  send data
         arrStream.forEach((camStream, i) => {
+
+            var eventEmitter = new events.EventEmitter();
+
             let ns = io.of(arrCams[i].namespace);
 
             let tmp;
 
             var pipeStream = data => {
-                console.log("data");
+                // console.log("data of ", i);
+                eventEmitter.emit("data", data);
                 tmp = data;
             };
 
@@ -70,17 +76,17 @@ module.exports = io => {
             ns.on("connection", socket => {
                 console.log("connected to came", arrCams[i].name);
 
-                socket.emit("data", tmp);
+                var pipeStream1 = data => {
+                    // console.log("data1 of", i);
+                    socket.emit("data", data);
+                };
 
-                // var pipeStream = data => {
-                //     socket.emit("data", data);
-                // };
-
-                // camStream.on("data", pipeStream);
+                eventEmitter.on("data", pipeStream1);
 
                 socket.on("disconnect", () => {
                     console.log("disconnected from /cam" + arrCams[i].name);
                     // camStream.removeListener("data", pipeStream);
+                    eventEmitter.removeListener("data", pipeStream);
                 });
             });
         });
